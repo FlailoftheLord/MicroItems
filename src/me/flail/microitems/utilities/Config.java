@@ -42,6 +42,10 @@ public class Config {
 	}
 
 	public void load() {
+		if (!file.exists()) {
+
+		}
+
 	}
 
 	protected void save() {
