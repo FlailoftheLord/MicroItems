@@ -4,3 +4,9 @@ prefix: Mitems
 # non-editable shits...
 main: me.flail.microitems.MicroItems
 softdepend: [MicroCommands, ChatManager]
+
+commands:
+  
+  microitems:
+    description: main command
+    usage: /microitems <help:reload>
