@@ -1,0 +1,6 @@
+name: MicroItems
+prefix: Mitems
+
+# non-editable shits...
+main: me.flail.microitems.MicroItems
+softdepend: [MicroCommands, ChatManager]
