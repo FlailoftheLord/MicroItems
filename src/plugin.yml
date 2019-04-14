@@ -9,4 +9,5 @@ commands:
   
   microitems:
     description: main command
-    usage: /microitems <help:reload>
+    usage: /microitems <help:reload:displayitem:showitem:item> [item%placeholders] [item%list:add:delete]
+    
