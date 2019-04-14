@@ -19,8 +19,9 @@ public class Config {
 
 	public Config(MicroItems plugin) {
 		this.plugin = plugin;
-		file = new File(plugin.getDataFolder(), "Settings.yml");
+		file = new File(plugin.getDataFolder() + "/Settings.yml");
 		this.reload();
+		this.setup();
 	}
 
 	public void setValue(String path, Object value) {
@@ -43,30 +44,35 @@ public class Config {
 
 	public Config reload() {
 		try {
-			config.load(file);
+			this.load();
 		} catch (Exception e) {
+			plugin.getLogger().warning(
+					"Couldn't load settings file! Try Restarting your server."
+							+ "\nIf this persists, delete the Settings.yml file in this plugin's data folder; and restart.");
 			e.printStackTrace();
 		}
 		return this;
 	}
 
-	public void load() throws IOException {
+	public Config load() throws IOException {
+		plugin.getDataFolder().mkdirs();
+
 		if (!file.exists()) {
 			file.createNewFile();
 		}
 
-		config = YamlConfiguration.loadConfiguration(file);
-
 		try {
-			config.save(file);
-		} catch (IOException e) {
+			config = YamlConfiguration.loadConfiguration(file);
+
+			return this;
+		} catch (Exception e) {
 			throw new IOException("Couldn't load settings file.");
 		}
 	}
 
 	protected void save() {
 		try {
-			this.load();
+			config.save(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 			plugin.getLogger().warning("Couldn't save settings file!");
@@ -74,6 +80,7 @@ public class Config {
 	}
 
 	public void setup() {
+		header();
 		loadValues();
 	}
 
@@ -83,14 +90,54 @@ public class Config {
 		List<String> itemPlaceholders = new ArrayList<>();
 		itemPlaceholders.add("[item]");
 		itemPlaceholders.add("[hand]");
+		String itemFormat = "&b&l[[item]]";
+		List<String> commandAliases = new ArrayList<>();
+
+		final String chat_prefix = "Chat.Prefix";
+		final String chat_reloadMessage = "Chat.ReloadMessage";
+		final String chat_itemPlaceholders = "Chat.ItemPlaceholders";
+		final String item_format = "Item.Format";
+		final String cmd_aliases = "Command.Aliases";
 
 		/**
 		 * A SUPER DUPER FANCY SEPARATOR!! ooh yeaaaaa ;p
 		 */
 
-		config.set("Chat.Prefix", prefix);
-		config.set("Chat.ReloadMessage", reloadMessage);
-		config.set("Chat.ItemPlaceholders", itemPlaceholders);
+		if (!config.contains(chat_prefix)) {
+			setValue(chat_prefix, prefix);
+		}
+		if (!config.contains(chat_reloadMessage)) {
+			setValue(chat_reloadMessage, reloadMessage);
+		}
+		if (!config.contains(chat_itemPlaceholders)) {
+			setValue(chat_itemPlaceholders, itemPlaceholders);
+		}
+		if (!config.contains(item_format)) {
+			setValue(item_format, itemFormat);
+		}
+		if (!config.contains(cmd_aliases)) {
+			setValue(cmd_aliases, commandAliases);
+		}
+	}
+
+	private void header() {
+		String headerValue = "#-----------------------------------------------------------------\r\n" +
+				"#==================================================================#\r\n" +
+				"#                                                                  #\r\n" +
+				"#                MicroItems by FlailoftheLord.                     #\r\n" +
+				"#         -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-                  #\r\n" +
+				"#           If you have any Questions or feedback                  #\r\n" +
+				"#              Join my discord server here:                        #\r\n" +
+				"#               https://discord.gg/wuxW5PS                         #\r\n" +
+				"#   ______               __        _____                           #\r\n" +
+				"#   |       |           /  \\         |        |                    #\r\n" +
+				"#   |__     |          /____\\        |        |                    #\r\n" +
+				"#   |       |         /      \\       |        |                    #\r\n" +
+				"#   |       |_____   /        \\    __|__      |______              #\r\n" +
+				"#                                                                  #\r\n" +
+				"#==================================================================#\r\n" +
+				"#-----------------------------------------------------------------\r\n";
+		config.options().header(headerValue);
 		this.save();
 	}
 

@@ -4,10 +4,26 @@ prefix: Mitems
 # non-editable shits...
 main: me.flail.microitems.MicroItems
 softdepend: [MicroCommands, ChatManager]
+version: 1.0.0
 
 commands:
   
   microitems:
     description: main command
-    usage: /microitems <help:reload:displayitem:showitem:item> [item%placeholders] [item%list:add:delete]
+    usage: /microitems <help:reload:displayitem:showitem:item> [item%placeholders] [placeholders%list:placeholders%add:placeholders%delete]
     
+permissions:
+  
+  microitems.admin:
+    description: use commands
+    default: op
+    children:
+      microitems.showitem: true
+  
+  microitems.showitem:
+    description: use the /microitems showitem 
+    default: op
+  
+  microitems.chat:
+    description: show off your item in chat!
+    default: true

@@ -1,5 +1,7 @@
 package me.flail.microitems.listeners;
 
-public class UseListener {
+import org.bukkit.event.Listener;
+
+public class UseListener implements Listener {
 
 }

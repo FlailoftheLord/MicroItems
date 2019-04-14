@@ -18,19 +18,30 @@ public class TabCompleter extends ArrayList<String> {
 	}
 
 	public TabCompleter construct(Command command, String[] args) {
-		String[] arguments = command.getUsage().split(" ");
-		for (String line : this.parseArgs(arguments[args.length - 1])) {
-			if (line.startsWith(args[args.length - 1])) {
-				if (line.contains("%") && (args.length > 1) && line.split("%")[0].equalsIgnoreCase(args[1])) {
+		try {
+			String[] arguments = command.getUsage().split(" ");
+			for (String line : this.parseArgs(arguments[args.length])) {
+				if (line.startsWith(args[args.length - 1])
+						|| (line.contains("%") && line.split("%")[1].startsWith(args[args.length - 1]))) {
+					if (line.contains("%")) {
+						if ((args.length > 1) && line.split("%")[0].equalsIgnoreCase(args[args.length - 2])) {
+							this.add(line.split("%")[1]);
+						}
+
+						continue;
+					}
+
 					this.add(line);
-					return this;
 				}
-				this.add(line);
+
 			}
+		} catch (Throwable t) {
 		}
 
 		return this;
 	}
+
+
 
 	protected String[] parseArgs(String line) {
 		String[] chars = { "<", ">", "[", "]" };

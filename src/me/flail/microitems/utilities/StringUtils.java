@@ -7,7 +7,7 @@ public class StringUtils {
 	protected String removeChars(String message, String[] chars) {
 		String modified = message;
 		for (String c : chars) {
-			modified = message.replace(c, "");
+			modified = modified.replace(c, "");
 		}
 
 		return modified;
