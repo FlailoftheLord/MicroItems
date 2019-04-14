@@ -21,6 +21,7 @@ public class Config {
 
 	public void setValue(String path, Object value) {
 		config.set(path, value);
+		this.save();
 	}
 
 
