@@ -16,6 +16,10 @@ public class ItemUtils extends StringUtils {
 		return new ItemType(material).name();
 	}
 
+	protected BaseComponent[] buildMessage(BaseComponent main, String addons) {
+		return new ComponentBuilder(main).append(addons).create();
+	}
+
 	protected TextComponent buildChatItem(ItemStack item) {
 		TextComponent component = new TextComponent(name(item.getType()));
 

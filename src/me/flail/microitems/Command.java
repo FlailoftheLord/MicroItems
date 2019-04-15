@@ -2,6 +2,12 @@ package me.flail.microitems;
 
 import org.bukkit.command.CommandSender;
 
+/**
+ * TODO Gotta work on this...
+ * Main Command handler class.
+ * 
+ * @author FlailoftheLord
+ */
 public class Command {
 	private MicroItems plugin = MicroItems.getPlugin(MicroItems.class);
 	private CommandSender sender;

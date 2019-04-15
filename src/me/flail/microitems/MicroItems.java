@@ -1,11 +1,14 @@
 package me.flail.microitems;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +25,8 @@ public class MicroItems extends JavaPlugin {
 	public Config config;
 	public PluginManager plugin = getServer().getPluginManager();
 
+	public Set<Player> cooldowns = new HashSet<>();
+
 	@Override
 	public void onEnable() {
 		long loadTime = System.currentTimeMillis();
@@ -34,7 +39,7 @@ public class MicroItems extends JavaPlugin {
 		registerCommands();
 		registerEvents();
 
-		console.sendMessage(utilities.chat(" &aStartup complete. &8(&7" + (System.currentTimeMillis() - loadTime) + "&8)\n"));
+		console.sendMessage(utilities.chat(" &aStartup complete. &8(&7" + (System.currentTimeMillis() - loadTime) + "ms&8)\n"));
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import org.bukkit.Material;
  */
 public class ItemType {
 	private String type;
-	private String friendlyName;
+	private String friendlyName = "";
 
 	public ItemType(Material type) {
 		this.type = type.toString().toLowerCase();

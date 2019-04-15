@@ -4,9 +4,12 @@ import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.flail.microitems.MicroItems;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 
 /**
  * Provides access to Utilities.
@@ -22,20 +25,53 @@ public class Utilities extends ItemUtils {
 		return new Utilities();
 	}
 
-	protected boolean broadcastChatItem(Player sender, String placeholder, String format, Set<Player> recipients) {
+	protected boolean broadcastChatItem(Player sender, String placeholder, String format, Set<Player> recipients, String message) {
+		MicroItems plugin = MicroItems.getPlugin(MicroItems.class);
+		Config config = new Config(plugin);
+
 		ItemStack item = sender.getInventory().getItemInMainHand();
-		if ((item == null) || item.getType().equals(Material.AIR)) {
+		if ((item == null) || (item.getType() == Material.AIR)) {
 			item = sender.getInventory().getItemInOffHand();
-			if ((item == null) || item.getType().equals(Material.AIR)) {
+			if ((item == null) || (item.getType() == Material.AIR)) {
 				sender.sendMessage(chat("&cYou must hold an item in your hand!"));
 				return true;
 			}
 
 		}
 
-		Config config = new Config(MicroItems.getPlugin(MicroItems.class));
-		String itemFormat = config.getValue("Item.Format").toString();
+		String iprefix = chat(config.getValue("Item.Prefix").toString());
+		String isuffix = chat(config.getValue("Item.Suffix").toString());
 
-		return false;
+
+		message = String.format(format, new Object[] { sender.getDisplayName(), message });
+
+		String[] fMessage = message.toString().split(placeholder.replace("[", "\\[").replace("]", "\\]"));
+		ComponentBuilder builder = new ComponentBuilder("").append(fMessage[0] + iprefix).append(this.buildChatItem(item))
+				.append(isuffix);
+		if (fMessage.length > 1) {
+			for (int index = 1; index <= fMessage.length; index++) {
+				try {
+					builder = builder.append(fMessage[index]);
+				} catch (Throwable t) {
+				}
+			}
+		}
+
+		BaseComponent[] textComponent = builder.create();
+		for (Player p : recipients) {
+			p.spigot().sendMessage(textComponent);
+		}
+
+		plugin.cooldowns.add(sender);
+
+		AsyncPlayerChatEvent chatEvent = new AsyncPlayerChatEvent(true, sender, message, recipients);
+
+		plugin.getServer().getPluginManager().callEvent(chatEvent);
+
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+			plugin.cooldowns.remove(sender);
+		}, 32L);
+
+		return true;
 	}
 }

@@ -21,12 +21,13 @@ public class ChatListener extends Utilities implements Listener {
 	public void playerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 
-		if (player.hasPermission("microitems.chat")) {
+		if (player.hasPermission("microitems.chat") && !plugin.cooldowns.contains(player)) {
 			if (!event.isCancelled()) {
 				List<String> placeholders = config.getList("Chat.ItemPlaceholders");
 				for (String p : placeholders) {
 					if (event.getMessage().contains(p)) {
-						event.setCancelled(this.broadcastChatItem(player, p, event.getFormat(), event.getRecipients()));
+						event.setCancelled(
+								this.broadcastChatItem(player, p, event.getFormat(), event.getRecipients(), event.getMessage()));
 						break;
 					}
 

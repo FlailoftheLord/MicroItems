@@ -3,7 +3,9 @@ package me.flail.microitems.utilities;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -96,39 +98,35 @@ public class Config {
 	}
 
 	protected void loadValues() {
+		Map<String, Object> values = new HashMap<>();
+
+
 		String prefix = "&7(&eMitems&7)";
 		String reloadMessage = "[prefix] &areloaded settings!";
 		List<String> itemPlaceholders = new ArrayList<>();
 		itemPlaceholders.add("[item]");
 		itemPlaceholders.add("[hand]");
-		String itemFormat = "&b&l[[item]]";
 		List<String> commandAliases = new ArrayList<>();
+		String itemPrefix = "&e[&b";
+		String itemSuffix = "&e]&r";
 
-		final String chat_prefix = "Chat.Prefix";
-		final String chat_reloadMessage = "Chat.ReloadMessage";
-		final String chat_itemPlaceholders = "Chat.ItemPlaceholders";
-		final String item_format = "Item.Format";
-		final String cmd_aliases = "Command.Aliases";
+		values.put("Chat.Prefix", prefix);
+		values.put("Chat.ReloadMessage", reloadMessage);
+		values.put("Chat.ItemPlaceholders", itemPlaceholders);
+		values.put("Command.Aliases", commandAliases);
+		values.put("Item.Prefix", itemPrefix);
+		values.put("Item.Suffix", itemSuffix);
 
 		/**
 		 * A SUPER DUPER FANCY SEPARATOR!! ooh yeaaaaa ;p
 		 */
 
-		if (!config.contains(chat_prefix)) {
-			setValue(chat_prefix, prefix);
+		for (String path : values.keySet()) {
+			if (!config.contains(path)) {
+				setValue(path, values.get(path));
+			}
 		}
-		if (!config.contains(chat_reloadMessage)) {
-			setValue(chat_reloadMessage, reloadMessage);
-		}
-		if (!config.contains(chat_itemPlaceholders)) {
-			setValue(chat_itemPlaceholders, itemPlaceholders);
-		}
-		if (!config.contains(item_format)) {
-			setValue(item_format, itemFormat);
-		}
-		if (!config.contains(cmd_aliases)) {
-			setValue(cmd_aliases, commandAliases);
-		}
+
 	}
 
 	private void header() {
