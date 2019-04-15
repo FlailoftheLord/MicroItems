@@ -5,6 +5,7 @@ prefix: Mitems
 main: me.flail.microitems.MicroItems
 softdepend: [MicroCommands, ChatManager]
 version: 1.0.0
+api-version: 1.13
 
 commands:
   
