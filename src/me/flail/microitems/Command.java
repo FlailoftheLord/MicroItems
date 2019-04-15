@@ -30,111 +30,116 @@ public class Command extends Utilities {
 	}
 
 	public boolean run() {
-		String arg = chat("[prefix] &eMicroItems running &7v" + plugin.version + " &eon " + plugin.getServer().getName() + " &8(&7"
-				+ plugin.getServer().getVersion() + "&8)");
-		String usage = chat(
-				"&cUsage: &7/" + command + " <help:showitem:reload:item> [placeholders] <list:add:delete> <placeholder-name>");
-		String itemUsage = chat(
-				"[prefix] Modify chat-item placeholders. \n&cUsage: &7/microitems item placeholders <list:add:delete>");
+		if (command.equalsIgnoreCase("microitems")) {
 
-		switch (args.length) {
-		case 0:
-			sender.sendMessage(arg);
-			sender.sendMessage(usage);
-			break;
-		case 1:
-			arg = args[0].toLowerCase();
-			switch (arg) {
+			String arg = chat("[prefix] &eMicroItems running &7v" + plugin.version + " &eon " + plugin.getServer().getName() + " &8(&7"
+					+ plugin.getServer().getVersion() + "&8)");
+			String usage = chat(
+					"&cUsage: &7/" + command + " <help:showitem:reload:item> [placeholders] <list:add:delete> <placeholder-name>");
+			String itemUsage = chat(
+					"[prefix] Modify chat-item placeholders. \n&cUsage: &7/microitems item placeholders <list:add:delete>");
 
-			case "help":
+			switch (args.length) {
+			case 0:
+				sender.sendMessage(arg);
 				sender.sendMessage(usage);
 				break;
-			case "showitem":
-				showItem(sender);
-				break;
-			case "displayitem":
-				showItem(sender);
-				break;
-			case "item":
-				sender.sendMessage(usage);
-				break;
-			case "reload":
-				if (sender.hasPermission("microitems.admin")) {
-					plugin.config = new Config(plugin);
-					sender.sendMessage(chat(plugin.config.getValue("Chat.ReloadMessage").toString()));
+			case 1:
+				arg = args[0].toLowerCase();
+				switch (arg) {
+
+				case "help":
+					sender.sendMessage(usage);
 					break;
+				case "showitem":
+					showItem(sender);
+					break;
+				case "displayitem":
+					showItem(sender);
+					break;
+				case "item":
+					sender.sendMessage(usage);
+					break;
+				case "reload":
+					if (sender.hasPermission("microitems.admin")) {
+						plugin.config = new Config(plugin);
+						plugin.registry();
+						sender.sendMessage(chat(plugin.config.getValue("Chat.ReloadMessage").toString()));
+						break;
+					}
+
+					sender.sendMessage(chat("[prefix] &cYou don't have permission to use this command."));
 				}
 
-				sender.sendMessage(chat("[prefix] &cYou don't have permission to use this command."));
+				break;
+			case 2:
+				try {
+					arg = args[1].toLowerCase();
+				} catch (Exception e) {
+				}
+				if (args[0].equalsIgnoreCase("item")) {
+
+					sender.sendMessage(itemUsage);
+				}
+
+				sender.sendMessage(usage);
+				break;
+			case 3:
+				try {
+					arg = args[2].toLowerCase();
+				} catch (Throwable t) {
+				}
+				if (args[0].equalsIgnoreCase("item")) {
+					switch (arg) {
+					case "add":
+						sender.sendMessage(itemUsage.replace("<list:add:delete>", "add <new-placeholder>"));
+						break;
+					case "delete":
+						sender.sendMessage(itemUsage.replace("<list:add:delete>", "delete <placeholder-name>"));
+					case "list":
+						this.listPlaceholders(sender);
+						break;
+					}
+
+				}
+				break;
 			}
 
-			break;
-		case 2:
-			try {
-				arg = args[1].toLowerCase();
-			} catch (Exception e) {
-			}
-			if (args[0].equalsIgnoreCase("item")) {
+			if (args.length > 3) {
+				if (args[0].equalsIgnoreCase("item")) {
+					if (sender.hasPermission("microitems.admin")) {
+						String value = "";
+						for (int index = 2; index < args.length; index++) {
+							value = value.concat(args[index]);
+						}
+						List<String> placeholders = getPlaceholders();
+
+						switch (args[2].toLowerCase()) {
+						case "add":
+							placeholders.add(value);
+							sender.sendMessage(chat("[prefix] &aAdded placeholder&8: &7" + value));
+							break;
+						case "delete":
+							if (placeholders.contains(value)) {
+								placeholders.remove(value);
+								sender.sendMessage(chat("[prefix] &aRemoved placeholder&8: &7" + value));
+								break;
+							}
+
+							sender.sendMessage(chat("[prefix] &cthere isn't a placeholder by the name&8: &7" + value));
+						}
+
+						plugin.config.setValue("Chat.ItemPlaceholders", placeholders);
+						return true;
+					}
+
+					sender.sendMessage(chat("&cYou don't have permission to use this command."));
+					return true;
+				}
 
 				sender.sendMessage(itemUsage);
 			}
 
-			sender.sendMessage(usage);
-			break;
-		case 3:
-			try {
-				arg = args[2].toLowerCase();
-			} catch (Throwable t) {
-			}
-			if (args[0].equalsIgnoreCase("item")) {
-				switch (arg) {
-				case "add":
-					sender.sendMessage(itemUsage.replace("<list:add:delete>", "add <new-placeholder>"));
-					break;
-				case "delete":
-					sender.sendMessage(itemUsage.replace("<list:add:delete>", "delete <placeholder-name>"));
-				case "list":
-					this.listPlaceholders(sender);
-					break;
-				}
-
-			}
-			break;
-		}
-
-		if (args.length > 3) {
-			if (args[0].equalsIgnoreCase("item")) {
-				if (sender.hasPermission("microitems.admin")) {
-					String value = "";
-					for (int index = 2; index < args.length; index++) {
-						value = value.concat(args[index]);
-					}
-					List<String> placeholders = getPlaceholders();
-
-					switch (args[2].toLowerCase()) {
-					case "add":
-						placeholders.add(value);
-						sender.sendMessage(chat("[prefix] &aAdded placeholder&8: &7" + value));
-						break;
-					case "delete":
-						if (placeholders.contains(value)) {
-							placeholders.remove(value);
-							sender.sendMessage(chat("[prefix] &aRemoved placeholder&8: &7" + value));
-							break;
-						}
-
-						sender.sendMessage(chat("[prefix] &cthere isn't a placeholder by the name&8: &7" + value));
-					}
-
-					plugin.config.setValue("Chat.ItemPlaceholders", placeholders);
-					return true;
-				}
-
-				sender.sendMessage(chat("&cYou don't have permission to use this command."));
-				return true;
-			}
-
-			sender.sendMessage(itemUsage);
 		}
 
 		return plugin != null ? true : false;

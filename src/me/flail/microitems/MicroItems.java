@@ -1,14 +1,19 @@
 package me.flail.microitems;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.flail.microitems.listeners.ChatListener;
@@ -54,14 +59,22 @@ public class MicroItems extends JavaPlugin {
 		return config;
 	}
 
-	private void registerCommands() {
-		for (String command : this.getDescription().getCommands().keySet()) {
-			PluginCommand cmd = this.getCommand(command);
-			List<String> aliases = config.getList("Command.Aliases");
-			cmd.setAliases(aliases);
+	public void registry() {
+		registerCommands();
+		registerEvents();
+	}
 
-			cmd.setExecutor(this);
-			console.sendMessage(utilities.chat(" &7Registered command: &e/" + command));
+
+
+	private void registerCommands() {
+		for (String cmd : this.getDescription().getCommands().keySet()) {
+			List<String> aliases = config.getList("Command.Aliases");
+			PluginCommand command = this.getCommand(cmd);
+			command.setAliases(aliases);
+			command.setExecutor(this);
+
+			serverCommandMap().register(cmd, command);
+			console.sendMessage(utilities.chat(" &7Registered command: &e/" + cmd));
 		}
 	}
 
@@ -72,13 +85,29 @@ public class MicroItems extends JavaPlugin {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-		return new Command(sender, command.getName(), args).run();
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		return new me.flail.microitems.Command(sender, command.getName(), args).run();
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		return new TabCompleter(this).construct(command, args);
+	}
+
+	private static CommandMap serverCommandMap() {
+		try {
+			if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
+				Field f = SimplePluginManager.class.getDeclaredField("commandMap");
+				f.setAccessible(true);
+				CommandMap commandMap = (CommandMap) f.get(Bukkit.getPluginManager());
+
+				return commandMap;
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+
+		return null;
 	}
 
 }
