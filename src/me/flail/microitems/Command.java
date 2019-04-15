@@ -32,7 +32,8 @@ public class Command extends Utilities {
 	public boolean run() {
 		String arg = chat("[prefix] &eMicroItems running &7v" + plugin.version + " &eon " + plugin.getServer().getName() + " &8(&7"
 				+ plugin.getServer().getVersion() + "&8)");
-		String usage = chat("&cUsage: &7/" + plugin.getServer().getPluginCommand(command).getUsage());
+		String usage = chat(
+				"&cUsage: &7/" + command + " <help:showitem:reload:item> [placeholders] <list:add:delete> <placeholder-name>");
 		String itemUsage = chat(
 				"[prefix] Modify chat-item placeholders. \n&cUsage: &7/microitems item placeholders <list:add:delete>");
 
@@ -67,8 +68,12 @@ public class Command extends Utilities {
 				sender.sendMessage(chat("[prefix] &cYou don't have permission to use this command."));
 			}
 
+			break;
 		case 2:
-			arg = args[1].toLowerCase();
+			try {
+				arg = args[1].toLowerCase();
+			} catch (Exception e) {
+			}
 			if (args[0].equalsIgnoreCase("item")) {
 
 				sender.sendMessage(itemUsage);
@@ -77,7 +82,10 @@ public class Command extends Utilities {
 			sender.sendMessage(usage);
 			break;
 		case 3:
-			arg = args[2].toLowerCase();
+			try {
+				arg = args[2].toLowerCase();
+			} catch (Throwable t) {
+			}
 			if (args[0].equalsIgnoreCase("item")) {
 				switch (arg) {
 				case "add":
@@ -153,7 +161,7 @@ public class Command extends Utilities {
 			if (sender instanceof Player) {
 				Set<Player> players = new HashSet<>();
 				players.addAll(Bukkit.getOnlinePlayers());
-				this.broadcastChatItem((Player) sender, "[item]", plugin.chatFormat, players, "[item]");
+				this.broadcastChatItem((Player) sender, "[item]", plugin.chatFormat, players, plugin.chatFormat + "[item]");
 				return;
 			}
 			sender.sendMessage(chat("[prefix] &cYou can't show items on console!"));
