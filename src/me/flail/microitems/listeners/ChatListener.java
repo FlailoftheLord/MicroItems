@@ -20,6 +20,7 @@ public class ChatListener extends Utilities implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void playerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
+		plugin.chatFormat = event.getFormat();
 
 		if (player.hasPermission("microitems.chat") && !plugin.cooldowns.contains(player)) {
 			if (!event.isCancelled()) {

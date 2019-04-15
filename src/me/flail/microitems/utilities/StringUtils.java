@@ -2,6 +2,8 @@ package me.flail.microitems.utilities;
 
 import org.bukkit.ChatColor;
 
+import me.flail.microitems.MicroItems;
+
 public class StringUtils {
 
 	protected String removeChars(String message, String[] chars) {
@@ -14,7 +16,8 @@ public class StringUtils {
 	}
 
 	public String chat(String message) {
-		return ChatColor.translateAlternateColorCodes('&', message);
+		String prefix = new Config(MicroItems.getPlugin(MicroItems.class)).getValue("Chat.Prefix").toString();
+		return ChatColor.translateAlternateColorCodes('&', message.replace("[prefix]", prefix));
 	}
 
 }

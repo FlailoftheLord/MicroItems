@@ -67,7 +67,7 @@ public class Config {
 		return this;
 	}
 
-	public Config load() throws IOException {
+	protected Config load() throws IOException {
 		plugin.getDataFolder().mkdirs();
 
 		if (!file.exists()) {

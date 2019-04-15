@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
@@ -25,6 +24,8 @@ public class MicroItems extends JavaPlugin {
 	public Config config;
 	public PluginManager plugin = getServer().getPluginManager();
 
+	public String chatFormat = "";
+
 	public Set<Player> cooldowns = new HashSet<>();
 
 	@Override
@@ -32,7 +33,7 @@ public class MicroItems extends JavaPlugin {
 		long loadTime = System.currentTimeMillis();
 		console.sendMessage(utilities.chat(" &eInitializing startup of MicroItems v" + version));
 
-		config = new Config(this);
+		config = new Config(this).reload();
 		console.sendMessage(utilities.chat(" &7Loaded Settings.yml file."));
 
 
@@ -48,12 +49,16 @@ public class MicroItems extends JavaPlugin {
 		console.sendMessage(utilities.chat(" &aShutdown success.  &eGoodbye!"));
 	}
 
-	@SuppressWarnings("unchecked")
+	public Config config() {
+		config = new Config(this).reload();
+		return config;
+	}
+
 	private void registerCommands() {
 		for (String command : this.getDescription().getCommands().keySet()) {
 			PluginCommand cmd = this.getCommand(command);
-			List<?> aliases = (List<?>) config.getValue("Command.Aliases");
-			cmd.setAliases((List<String>) aliases);
+			List<String> aliases = config.getList("Command.Aliases");
+			cmd.setAliases(aliases);
 
 			cmd.setExecutor(this);
 			console.sendMessage(utilities.chat(" &7Registered command: &e/" + command));
@@ -67,12 +72,12 @@ public class MicroItems extends JavaPlugin {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		return false;
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+		return new Command(sender, command.getName(), args).run();
 	}
 
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
 		return new TabCompleter(this).construct(command, args);
 	}
 
