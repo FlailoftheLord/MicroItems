@@ -106,14 +106,14 @@ public class Config {
 		List<String> itemPlaceholders = new ArrayList<>();
 		itemPlaceholders.add("[item]");
 		itemPlaceholders.add("[hand]");
-		List<String> commandAliases = new ArrayList<>();
 		String itemPrefix = "&e[&b";
 		String itemSuffix = "&e]&r";
+		String defaultFormat = "%1$s &8»&7 %2$s";
 
 		values.put("Chat.Prefix", prefix);
+		values.put("Chat.DefaultFormat", defaultFormat);
 		values.put("Chat.ReloadMessage", reloadMessage);
 		values.put("Chat.ItemPlaceholders", itemPlaceholders);
-		values.put("Command.Aliases", commandAliases);
 		values.put("Item.Prefix", itemPrefix);
 		values.put("Item.Suffix", itemSuffix);
 

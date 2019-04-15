@@ -45,7 +45,7 @@ public class Utilities extends ItemUtils {
 
 		message = String.format(format, new Object[] { sender.getDisplayName(), message });
 
-		String[] fMessage = message.toString().split(placeholder.replace("[", "\\[").replace("]", "\\]"));
+		String[] fMessage = chat(message.toString()).split(placeholder.replace("[", "\\[").replace("]", "\\]"));
 		ComponentBuilder builder = new ComponentBuilder("").append(fMessage[0] + iprefix).append(this.buildChatItem(item))
 				.append(isuffix);
 		if (fMessage.length > 1) {
@@ -64,7 +64,7 @@ public class Utilities extends ItemUtils {
 
 		plugin.cooldowns.add(sender);
 
-		AsyncPlayerChatEvent chatEvent = new AsyncPlayerChatEvent(true, sender, message, recipients);
+		AsyncPlayerChatEvent chatEvent = new AsyncPlayerChatEvent(false, sender, chat(message), recipients);
 
 		plugin.getServer().getPluginManager().callEvent(chatEvent);
 

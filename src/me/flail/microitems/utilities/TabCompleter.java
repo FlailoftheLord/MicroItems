@@ -19,13 +19,21 @@ public class TabCompleter extends ArrayList<String> {
 
 	public TabCompleter construct(Command command, String[] args) {
 		try {
+
 			String[] arguments = command.getUsage().split(" ");
 			for (String line : this.parseArgs(arguments[args.length])) {
 				if (line.startsWith(args[args.length - 1])
 						|| (line.contains("%") && line.split("%")[1].startsWith(args[args.length - 1]))) {
 					if (line.contains("%")) {
 						if ((args.length > 1) && line.split("%")[0].equalsIgnoreCase(args[args.length - 2])) {
-							this.add(line.split("%")[1]);
+							String finalOption = line.split("%")[1];
+							if (finalOption.equalsIgnoreCase("placeholder-name")) {
+								for (String alias : plugin.config.getList("Chat.ItemPlaceholders")) {
+									this.add(alias);
+								}
+								continue;
+							}
+							this.add(finalOption);
 						}
 
 						continue;

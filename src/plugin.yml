@@ -12,6 +12,7 @@ commands:
   microitems:
     description: main command
     usage: /microitems <help:reload:displayitem:showitem:item> [item%placeholders] [placeholders%list:placeholders%add:placeholders%delete] [add%new-placeholder:delete%placeholder-name]
+    aliases: [mitems]
     
 permissions:
   

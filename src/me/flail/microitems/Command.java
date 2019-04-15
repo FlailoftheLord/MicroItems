@@ -109,7 +109,7 @@ public class Command extends Utilities {
 				if (args[0].equalsIgnoreCase("item")) {
 					if (sender.hasPermission("microitems.admin")) {
 						String value = "";
-						for (int index = 2; index < args.length; index++) {
+						for (int index = 3; index < args.length; index++) {
 							value = value.concat(args[index]);
 						}
 						List<String> placeholders = getPlaceholders();
@@ -166,7 +166,7 @@ public class Command extends Utilities {
 			if (sender instanceof Player) {
 				Set<Player> players = new HashSet<>();
 				players.addAll(Bukkit.getOnlinePlayers());
-				this.broadcastChatItem((Player) sender, "[item]", plugin.chatFormat, players, plugin.chatFormat + "[item]");
+				this.broadcastChatItem((Player) sender, "[item]", plugin.chatFormat, players, "[item]");
 				return;
 			}
 			sender.sendMessage(chat("[prefix] &cYou can't show items on console!"));
