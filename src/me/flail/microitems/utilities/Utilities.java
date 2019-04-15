@@ -2,7 +2,11 @@ package me.flail.microitems.utilities;
 
 import java.util.Set;
 
-import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import me.flail.microitems.MicroItems;
 
 /**
  * Provides access to Utilities.
@@ -18,7 +22,20 @@ public class Utilities extends ItemUtils {
 		return new Utilities();
 	}
 
-	protected void broadcastChatItem(TextComponent item, String format, Set<Player> recipients) {
+	protected boolean broadcastChatItem(Player sender, String placeholder, String format, Set<Player> recipients) {
+		ItemStack item = sender.getInventory().getItemInMainHand();
+		if ((item == null) || item.getType().equals(Material.AIR)) {
+			item = sender.getInventory().getItemInOffHand();
+			if ((item == null) || item.getType().equals(Material.AIR)) {
+				sender.sendMessage(chat("&cYou must hold an item in your hand!"));
+				return true;
+			}
 
+		}
+
+		Config config = new Config(MicroItems.getPlugin(MicroItems.class));
+		String itemFormat = config.getValue("Item.Format").toString();
+
+		return false;
 	}
 }

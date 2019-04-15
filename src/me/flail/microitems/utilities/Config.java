@@ -42,6 +42,17 @@ public class Config {
 		return config.get(path, "");
 	}
 
+	/**
+	 * Will return an empty list if the specified path is invalid.
+	 * 
+	 * @param path
+	 *                 the path in the configuration file to find the list.
+	 * @return the list, or empty if path is invalid.
+	 */
+	public List<String> getList(String path) {
+		return config.getStringList(path);
+	}
+
 	public Config reload() {
 		try {
 			this.load();

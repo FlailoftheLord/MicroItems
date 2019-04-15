@@ -20,15 +20,22 @@ public class ChatListener extends Utilities implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void playerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
-		String message = event.getMessage();
-		List<?> c = (List<?>) config.getValue("Chat.ItemPlaceholders");
-		String format = config.getValue("Item.Format").toString();
-		for (Object o : c) {
-			String placeholder = o.toString();
+
+		if (player.hasPermission("microitems.chat")) {
+			if (!event.isCancelled()) {
+				List<String> placeholders = config.getList("Chat.ItemPlaceholders");
+				for (String p : placeholders) {
+					if (event.getMessage().contains(p)) {
+						event.setCancelled(this.broadcastChatItem(player, p, event.getFormat(), event.getRecipients()));
+						break;
+					}
+
+				}
+
+			}
+
 		}
 
 	}
-
-
 
 }
