@@ -1,4 +1,4 @@
-package me.flail.microitems.utilities.nms;
+package me.flail.microitems.utilities;
 
 import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 
