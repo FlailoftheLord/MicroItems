@@ -1,8 +1,11 @@
 package me.flail.microitems;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.flail.microitems.gui.GUI;
 import me.flail.microitems.listeners.ChatListener;
 import me.flail.microitems.listeners.UseListener;
 import me.flail.microitems.utilities.Config;
@@ -25,6 +29,8 @@ public class MicroItems extends JavaPlugin implements Listener {
 	public String version = this.getDescription().getVersion();
 	public Config config;
 	public PluginManager plugin = getServer().getPluginManager();
+
+	public static Map<UUID, UUID> activeGuis = new HashMap<>();
 
 	public String chatFormat = "";
 
@@ -88,6 +94,7 @@ public class MicroItems extends JavaPlugin implements Listener {
 		console.sendMessage(" Chat Listener is active.");
 		plugin.registerEvents(new UseListener(), this);
 		plugin.registerEvents(this, this);
+		plugin.registerEvents(new GUI("").new listeners(), this);
 	}
 
 	@Override

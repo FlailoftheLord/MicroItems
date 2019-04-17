@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import me.flail.microitems.mitems.gui.MainGui;
 import me.flail.microitems.utilities.Config;
 import me.flail.microitems.utilities.Utilities;
 
@@ -23,6 +24,8 @@ public class Command extends Utilities {
 	private String command;
 	private String[] args;
 
+	private String denied = chat("[prefix] &cYou don't have permission to use this command.");
+
 	public Command(CommandSender sender, String command, String[] args) {
 		this.sender = sender;
 		this.command = command;
@@ -35,7 +38,8 @@ public class Command extends Utilities {
 			String arg = chat("[prefix] &eMicroItems running &7v" + plugin.version + " &eon " + plugin.getServer().getName() + " &8(&7"
 					+ plugin.getServer().getVersion() + "&8)");
 			String usage = chat(
-					"&cUsage: &7/" + command + " <help:showitem:reload:item> [placeholders] <list:add:delete> <placeholder-name>");
+					"&cUsage: &7/" + command
+					+ " <help:showitem:inventory:reload:item> [placeholders] <list:add:delete> <placeholder-name>");
 			String itemUsage = chat(
 					"[prefix] Modify chat-item placeholders. \n&cUsage: &7/microitems item placeholders <list:add:delete>");
 
@@ -60,6 +64,12 @@ public class Command extends Utilities {
 				case "item":
 					sender.sendMessage(usage);
 					break;
+				case "inv":
+					openMainGui(sender);
+					break;
+				case "inventory":
+					openMainGui(sender);
+					break;
 				case "reload":
 					if (sender.hasPermission("microitems.admin")) {
 						plugin.config = new Config(plugin);
@@ -68,7 +78,7 @@ public class Command extends Utilities {
 						break;
 					}
 
-					sender.sendMessage(chat("[prefix] &cYou don't have permission to use this command."));
+					sender.sendMessage(denied);
 				}
 
 				break;
@@ -133,7 +143,7 @@ public class Command extends Utilities {
 						return true;
 					}
 
-					sender.sendMessage(chat("&cYou don't have permission to use this command."));
+					sender.sendMessage(denied);
 					return true;
 				}
 
@@ -173,8 +183,16 @@ public class Command extends Utilities {
 			return;
 		}
 
-		sender.sendMessage(chat("&cYou don't have permission to use this command."));
+		sender.sendMessage(denied);
+	}
 
+	private void openMainGui(CommandSender sender) {
+		if (sender.hasPermission("microitems.inventory") && (sender instanceof Player)) {
+			Player operator = (Player) sender;
+			new MainGui(chat("&2MicroItems ControlPanel")).open(operator);
+			return;
+		}
+		sender.sendMessage(denied);
 	}
 
 }

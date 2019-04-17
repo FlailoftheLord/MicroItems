@@ -4,13 +4,14 @@ prefix: Mitems
 # non-editable shits...
 main: me.flail.microitems.MicroItems
 softdepend: [MicroCommands, ChatManager]
-version: Legacy
+version: v1.0.2
+api-version: 1.13
 
 commands:
   
   microitems:
     description: main command
-    usage: /microitems <help:reload:displayitem:showitem:item> [item%placeholders] [placeholders%list:placeholders%add:placeholders%delete] [add%new-placeholder:delete%placeholder-name]
+    usage: /microitems <help:reload:inv:inventory:displayitem:showitem:item> [item%placeholders] [placeholders%list:placeholders%add:placeholders%delete] [add%new-placeholder:delete%placeholder-name]
     aliases: [mitems]
     
 permissions:

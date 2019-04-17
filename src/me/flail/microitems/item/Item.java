@@ -1,6 +1,15 @@
 package me.flail.microitems.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.tags.ItemTagType;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import me.flail.microitems.MicroItems;
 
 
 /**
@@ -9,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
  * @author FlailoftheLord
  */
 public class Item {
+	private MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
 	private ItemStack item;
 	private ItemType itemType;
 
@@ -26,7 +36,32 @@ public class Item {
 	}
 
 	public String friendlyName() {
-		return itemType.name();
+		return getType().name();
+	}
+
+	public String getName() {
+		return item().getItemMeta().hasDisplayName() ? item().getItemMeta().getDisplayName() : getType().name();
+	}
+
+	public void setName(String name) {
+		item().getItemMeta().setDisplayName(name);
+	}
+
+	public List<String> getLore() {
+		return item().getItemMeta().hasLore() ? item().getItemMeta().getLore() : new ArrayList<>();
+	}
+
+	public void setLore(List<String> lore) {
+		item().getItemMeta().setLore(lore);
+	}
+
+	public Item addNBT(String data) {
+		item().getItemMeta().getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, "mitems"), ItemTagType.STRING, data);
+		return this;
+	}
+
+	public ItemMeta getMeta() {
+		return item().getItemMeta();
 	}
 
 }
