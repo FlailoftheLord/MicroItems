@@ -17,7 +17,7 @@ public class ChatListener extends Utilities implements Listener {
 	private MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
 	private Config config = new Config(plugin);
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void playerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		plugin.chatFormat = event.getFormat();

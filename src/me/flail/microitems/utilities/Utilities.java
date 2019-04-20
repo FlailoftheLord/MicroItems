@@ -66,7 +66,11 @@ public class Utilities extends ItemUtils {
 
 		AsyncPlayerChatEvent chatEvent = new AsyncPlayerChatEvent(false, sender, chat(message), recipients);
 
-		plugin.getServer().getPluginManager().callEvent(chatEvent);
+		if (!plugin.getServer().getPluginManager().isPluginEnabled("ChatControl")
+				&& !plugin.getServer().getPluginManager().isPluginEnabled("ChatControlPro")) {
+			chatEvent.setFormat(plugin.chatFormat);
+			plugin.getServer().getPluginManager().callEvent(chatEvent);
+		}
 
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
 			plugin.cooldowns.remove(sender);
