@@ -2,7 +2,7 @@ package me.flail.microitems.utilities;
 
 import org.bukkit.ChatColor;
 
-import me.flail.microitems.MicroItems;
+import me.flail.MicroItems;
 
 public class StringUtils {
 

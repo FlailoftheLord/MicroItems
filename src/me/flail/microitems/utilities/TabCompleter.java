@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.command.Command;
 
-import me.flail.microitems.MicroItems;
+import me.flail.MicroItems;
 
 public class TabCompleter extends ArrayList<String> {
 	private MicroItems plugin;

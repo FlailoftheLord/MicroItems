@@ -7,9 +7,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.tags.ItemTagType;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.flail.microitems.MicroItems;
+import me.flail.MicroItems;
 
 
 /**
@@ -17,6 +18,7 @@ import me.flail.microitems.MicroItems;
  * 
  * @author FlailoftheLord
  */
+@SuppressWarnings("deprecation")
 public class Item {
 	private MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
 	private ItemStack item;
@@ -56,7 +58,13 @@ public class Item {
 	}
 
 	public Item addNBT(String data) {
-		item().getItemMeta().getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, "mitems"), ItemTagType.STRING, data);
+		if (plugin.server.getVersion().contains("1.13")) {
+			item().getItemMeta().getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, "mitems"), ItemTagType.STRING, data);
+			return this;
+		}
+
+		item().getItemMeta().getPersistentDataContainer().set(new NamespacedKey(plugin, "mitems"),
+				PersistentDataType.STRING, data);
 		return this;
 	}
 

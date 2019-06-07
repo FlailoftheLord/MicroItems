@@ -1,7 +1,5 @@
 package me.flail.microitems.utilities;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,23 +10,24 @@ import javax.annotation.Nullable;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.flail.microitems.MicroItems;
+import me.flail.MicroItems;
+import me.flail.tools.DataFile;
 
 public class Config {
 	private MicroItems plugin;
-	private File file;
+	private DataFile file;
+
 	private FileConfiguration config = new YamlConfiguration();
 
 	public Config(MicroItems plugin) {
 		this.plugin = plugin;
-		file = new File(plugin.getDataFolder() + "/Settings.yml");
+		file = new DataFile("Settings.yml");
 		this.reload();
 		this.setup();
 	}
 
 	public void setValue(String path, Object value) {
-		config.set(path, value);
-		this.save();
+		file.setValue(path, value);
 	}
 
 
@@ -41,7 +40,7 @@ public class Config {
 	 */
 	@Nullable
 	public Object getValue(String path) {
-		return config.get(path, "");
+		return file.getObj(path);
 	}
 
 	/**
@@ -57,7 +56,7 @@ public class Config {
 
 	public Config reload() {
 		try {
-			this.load();
+			file.load();
 		} catch (Exception e) {
 			plugin.getLogger().warning(
 					"Couldn't load settings file! Try Restarting your server."
@@ -67,30 +66,6 @@ public class Config {
 		return this;
 	}
 
-	protected Config load() throws IOException {
-		plugin.getDataFolder().mkdirs();
-
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-
-		try {
-			config = YamlConfiguration.loadConfiguration(file);
-
-			return this;
-		} catch (Exception e) {
-			throw new IOException("Couldn't load settings file.");
-		}
-	}
-
-	protected void save() {
-		try {
-			config.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-			plugin.getLogger().warning("Couldn't save settings file!");
-		}
-	}
 
 	public void setup() {
 		header();
@@ -146,8 +121,7 @@ public class Config {
 				"#                                                                  #\r\n" +
 				"#==================================================================#\r\n" +
 				"#-----------------------------------------------------------------\r\n";
-		config.options().header(headerValue);
-		this.save();
+		file.setHeader(headerValue);
 	}
 
 }

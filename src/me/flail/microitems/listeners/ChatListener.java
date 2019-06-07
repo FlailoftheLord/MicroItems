@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.flail.microitems.MicroItems;
+import me.flail.MicroItems;
 import me.flail.microitems.utilities.Config;
 import me.flail.microitems.utilities.Utilities;
 

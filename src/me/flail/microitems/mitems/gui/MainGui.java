@@ -14,12 +14,13 @@ public class MainGui extends GUI {
 
 	public MainGui(String name) {
 		super(name);
-		createContents();
 		generate();
 	}
 
 	@Override
 	public void generate() {
+		createContents();
+
 		for (Integer i : contents.keySet()) {
 			this.setItem(i.intValue(), contents.get(i).item());
 		}

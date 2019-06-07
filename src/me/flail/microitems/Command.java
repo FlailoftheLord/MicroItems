@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import me.flail.MicroItems;
 import me.flail.microitems.mitems.gui.MainGui;
 import me.flail.microitems.utilities.Config;
 import me.flail.microitems.utilities.Utilities;
@@ -189,6 +190,7 @@ public class Command extends Utilities {
 	private void openMainGui(CommandSender sender) {
 		if (sender.hasPermission("microitems.inventory") && (sender instanceof Player)) {
 			Player operator = (Player) sender;
+
 			new MainGui(chat("&2MicroItems ControlPanel")).open(operator);
 			return;
 		}

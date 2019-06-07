@@ -1,4 +1,4 @@
-package me.flail.microitems;
+package me.flail;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -16,25 +17,33 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.flail.microitems.gui.GUI;
+import me.flail.microitems.gui.GuiEvents;
 import me.flail.microitems.listeners.ChatListener;
 import me.flail.microitems.listeners.UseListener;
 import me.flail.microitems.utilities.Config;
 import me.flail.microitems.utilities.TabCompleter;
 import me.flail.microitems.utilities.Utilities;
+import me.flail.tools.Logger;
 
 public class MicroItems extends JavaPlugin implements Listener {
 	public Utilities utilities = Utilities.get();
 	public ConsoleCommandSender console = getServer().getConsoleSender();
 	public String version = this.getDescription().getVersion();
 	public Config config;
-	public PluginManager plugin = getServer().getPluginManager();
+
+	public Server server = getServer();
+	public PluginManager plugin = server.getPluginManager();
 
 	public static Map<UUID, UUID> activeGuis = new HashMap<>();
 
 	public String chatFormat = "";
 
 	public Set<Player> cooldowns = new HashSet<>();
+
+	@Override
+	public void onLoad() {
+		versionCheck();
+	}
 
 	@Override
 	public void onEnable() {
@@ -94,7 +103,7 @@ public class MicroItems extends JavaPlugin implements Listener {
 		console.sendMessage(" Chat Listener is active.");
 		plugin.registerEvents(new UseListener(), this);
 		plugin.registerEvents(this, this);
-		plugin.registerEvents(new GUI("").new listeners(), this);
+		plugin.registerEvents(new GuiEvents(), this);
 	}
 
 	@Override
@@ -107,5 +116,13 @@ public class MicroItems extends JavaPlugin implements Listener {
 		return new TabCompleter(this).construct(command, args);
 	}
 
+	private void versionCheck() {
+		if (!server.getVersion().contains("1.13.2") && !server.getVersion().contains("1.14.2")) {
+			new Logger().console("&cYOU MUST BE USING Spigot versions 1.13.2 OR 1.14.2 in order for MicroItems to run!");
+
+			this.setEnabled(false);
+		}
+
+	}
 
 }

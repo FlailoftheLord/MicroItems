@@ -1,27 +1,17 @@
 package me.flail.microitems.gui;
 
-import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.flail.microitems.MicroItems;
+import me.flail.MicroItems;
 import me.flail.microitems.utilities.Utilities;
 
 public class GUI extends Utilities {
-	private Map<UUID, UUID> activeGuis = MicroItems.activeGuis;
 
 	private UUID uuid;
 	private Inventory ui;
@@ -86,66 +76,28 @@ public class GUI extends Utilities {
 
 	public GUI open(Player player) {
 		player.openInventory(ui);
-		activeGuis.put(player.getUniqueId(), uuid);
+		MicroItems.activeGuis.put(player.getUniqueId(), uuid);
 		return this;
 	}
 
 	public void close(Player player) {
-		activeGuis.remove(player.getUniqueId());
+		MicroItems.activeGuis.remove(player.getUniqueId());
 	}
 
-	public class listeners implements Listener {
-
-		@EventHandler
-		public void playerQuit(PlayerQuitEvent event) {
-			close(event.getPlayer());
-		}
-
-		@EventHandler
-		public void playerKick(PlayerKickEvent event) {
-			close(event.getPlayer());
-		}
-
-		@EventHandler
-		public void invClose(InventoryCloseEvent event) {
-			if (event.getPlayer() instanceof Player) {
-				close((Player) event.getPlayer());
-			}
-		}
-
-		@EventHandler
-		public void playerChat(AsyncPlayerChatEvent event) {
-			close(event.getPlayer());
-		}
-
-		@EventHandler
-		public void playerDamage(EntityDamageEvent event) {
-			if (event.getEntity() instanceof Player) {
-				close((Player) event.getEntity());
-			}
-
-		}
-
-		@EventHandler
-		public void invClick(InventoryInteractEvent event) {
-
-			if (event.getWhoClicked() instanceof Player) {
-				Player clicker = (Player) event.getWhoClicked();
-				event.setCancelled(activeGuis.containsKey(clicker.getUniqueId()));
-
-			}
-
-		}
-
-	}
-
-	/**
+	/*
 	 * Start of optional interface.
 	 */
 
+	/**
+	 * generate the inventory.
+	 */
 	public void generate() {
 	}
 
+	/**
+	 * All methods for setings items in the inventory slots should go in here, and be called in the
+	 * Gui#generate() function.
+	 */
 	protected void createContents() {
 	}
 
