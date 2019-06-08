@@ -59,13 +59,22 @@ public class Item {
 
 	public Item addNBT(String data) {
 		if (plugin.server.getVersion().contains("1.13")) {
-			item().getItemMeta().getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, "mitems"), ItemTagType.STRING, data);
+			item().getItemMeta().getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, data), ItemTagType.STRING, data);
 			return this;
 		}
 
-		item().getItemMeta().getPersistentDataContainer().set(new NamespacedKey(plugin, "mitems"),
+		item().getItemMeta().getPersistentDataContainer().set(new NamespacedKey(plugin, data),
 				PersistentDataType.STRING, data);
 		return this;
+	}
+
+	public boolean hasNBT(String data) {
+		if (plugin.server.getVersion().contains("1.13")) {
+			return item.getItemMeta().getCustomTagContainer().hasCustomTag(new NamespacedKey(plugin, data), ItemTagType.STRING);
+		}
+
+		return item().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, data),
+				PersistentDataType.STRING);
 	}
 
 	public ItemMeta getMeta() {

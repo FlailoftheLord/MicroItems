@@ -6,12 +6,14 @@ import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
 
 import me.flail.MicroItems;
+import me.flail.microitems.utilities.Config;
 
 public class Tools {
 	protected MicroItems plugin = MicroItems.getPlugin(MicroItems.class);
 
 	public String chat(String message) {
-		return ChatColor.translateAlternateColorCodes('&', message);
+		return ChatColor.translateAlternateColorCodes('&',
+				message.replace("[prefix]", new Config(plugin).getValue("Prefix").toString()));
 	}
 
 	/**

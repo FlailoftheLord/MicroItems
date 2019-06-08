@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.flail.MicroItems;
+import me.flail.microitems.item.Item;
 import me.flail.tools.Logger;
 
 public class GuiEvents extends Logger implements Listener {
@@ -50,16 +51,28 @@ public class GuiEvents extends Logger implements Listener {
 
 		if (event.getWhoClicked() instanceof Player) {
 			Player clicker = (Player) event.getWhoClicked();
+			if (MicroItems.activeGuis.containsKey(clicker.getUniqueId())) {
+				event.setCancelled(true);
+				Item item = new Item(event.getCurrentItem());
 
-			event.setCancelled(MicroItems.activeGuis.containsKey(clicker.getUniqueId()));
+				if (item.hasNBT("inv-backups")) {
+					close(clicker);
+					clicker.sendMessage(chat(""));
+				}
+
+			}
+
 		}
 
 	}
 
 	protected void close(Player player) {
 		MicroItems.activeGuis.remove(player.getUniqueId());
-		if (player.isOnline()) {
-			player.closeInventory();
+		if ((player != null) && player.isValid()) {
+			try {
+				player.closeInventory();
+			} catch (Throwable T) {
+			}
 		}
 	}
 
