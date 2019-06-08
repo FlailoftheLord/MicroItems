@@ -1,8 +1,5 @@
 package me.flail.microitems.mitems.gui;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,7 +7,6 @@ import me.flail.microitems.gui.GUI;
 import me.flail.microitems.item.Item;
 
 public class MainGui extends GUI {
-	private Map<Integer, Item> contents = new HashMap<>();
 
 	public MainGui(String name) {
 		super(name);

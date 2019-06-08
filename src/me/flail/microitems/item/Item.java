@@ -6,7 +6,6 @@ import java.util.List;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.tags.ItemTagType;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,10 +14,7 @@ import me.flail.MicroItems;
 
 /**
  * Allows for Wider control of an {@link ItemStack}'s data.
- * 
- * @author FlailoftheLord
  */
-@SuppressWarnings("deprecation")
 public class Item {
 	private MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
 	private ItemStack item;
@@ -58,21 +54,12 @@ public class Item {
 	}
 
 	public Item addNBT(String data) {
-		if (plugin.server.getVersion().contains("1.13")) {
-			item().getItemMeta().getCustomTagContainer().setCustomTag(new NamespacedKey(plugin, data), ItemTagType.STRING, data);
-			return this;
-		}
-
 		item().getItemMeta().getPersistentDataContainer().set(new NamespacedKey(plugin, data),
 				PersistentDataType.STRING, data);
 		return this;
 	}
 
 	public boolean hasNBT(String data) {
-		if (plugin.server.getVersion().contains("1.13")) {
-			return item.getItemMeta().getCustomTagContainer().hasCustomTag(new NamespacedKey(plugin, data), ItemTagType.STRING);
-		}
-
 		return item().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, data),
 				PersistentDataType.STRING);
 	}

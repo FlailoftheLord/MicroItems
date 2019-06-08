@@ -58,6 +58,12 @@ public class GuiEvents extends Logger implements Listener {
 				if (item.hasNBT("inv-backups")) {
 					close(clicker);
 					clicker.sendMessage(chat(""));
+
+					return;
+				}
+
+				if (item.hasNBT("item-generator")) {
+
 				}
 
 			}

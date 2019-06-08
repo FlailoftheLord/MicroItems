@@ -13,14 +13,6 @@ public class NMSitem extends Logger {
 
 	protected String versionTranslator(ItemStack item) {
 		String version = plugin.server.getVersion().replace(".", "_");
-		if (version.contains("1_13_2")) {
-			net.minecraft.server.v1_13_R2.NBTTagCompound compound = new net.minecraft.server.v1_13_R2.NBTTagCompound();
-			net.minecraft.server.v1_13_R2.ItemStack nmsItem = org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack
-					.asNMSCopy(item);
-
-			compound = nmsItem.save(compound);
-			return compound.toString();
-		}
 
 		if (!version.contains("1_14_2")) {
 			console("&cInvalid Server version&8:&7 " + version + " You must be using either &eSpigot v1.13.2 &7or &ev1.14.2");

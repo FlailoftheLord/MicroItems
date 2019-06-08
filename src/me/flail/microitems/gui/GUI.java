@@ -1,5 +1,7 @@
 package me.flail.microitems.gui;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -9,9 +11,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.flail.MicroItems;
+import me.flail.microitems.item.Item;
 import me.flail.microitems.utilities.Utilities;
 
+/**
+ * All extends of this must override {@link #generate()} and {@link #createContents()}
+ * 
+ * @author FlailoftheLord
+ */
 public class GUI extends Utilities {
+	protected Map<Integer, Item> contents = new HashMap<>();
 
 	private UUID uuid;
 	private Inventory ui;
@@ -85,18 +94,20 @@ public class GUI extends Utilities {
 	}
 
 	/*
-	 * Start of optional interface.
+	 * Start of interface.
 	 */
 
 	/**
-	 * generate the inventory.
+	 * Generate the inventory from the Item Map.
+	 * This method must call {@link #createContents()} to generate the Item Map.
 	 */
 	public void generate() {
+		createContents();
 	}
 
 	/**
 	 * All methods for setings items in the inventory slots should go in here, and be called in the
-	 * Gui#generate() function.
+	 * {@link #generate()} function.
 	 */
 	protected void createContents() {
 	}

@@ -117,8 +117,8 @@ public class MicroItems extends JavaPlugin implements Listener {
 	}
 
 	private void versionCheck() {
-		if (!server.getVersion().contains("1.13.2") && !server.getVersion().contains("1.14.2")) {
-			new Logger().console("&cYOU MUST BE USING Spigot versions 1.13.2 OR 1.14.2 in order for MicroItems to run!");
+		if (!server.getVersion().contains("1.14.2")) {
+			new Logger().console("&cYOU MUST BE USING &7Spigot version 1.14.2 &cin order for MicroItems to run!");
 
 			this.setEnabled(false);
 		}
