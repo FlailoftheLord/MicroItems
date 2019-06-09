@@ -19,6 +19,12 @@ public class ItemGeneratorGui extends GUI {
 	public void generate() {
 		createContents();
 
+		for (Integer i : contents.keySet()) {
+			this.setItem(i.intValue(), contents.get(i).item());
+
+		}
+
+		this.fillEmptySpace(new ItemStack(Material.WHITE_STAINED_GLASS_PANE));
 	}
 
 	@Override

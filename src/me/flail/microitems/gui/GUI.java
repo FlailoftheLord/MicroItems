@@ -100,6 +100,7 @@ public class GUI extends Utilities {
 	/**
 	 * Generate the inventory from the Item Map.
 	 * This method must call {@link #createContents()} to generate the Item Map.
+	 * You can also call {@link #fillEmptySpace(ItemStack)} to fill up the empty space with an item.
 	 */
 	public void generate() {
 		createContents();
