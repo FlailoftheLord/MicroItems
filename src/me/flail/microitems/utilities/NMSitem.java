@@ -15,7 +15,7 @@ public class NMSitem extends Logger {
 		String version = plugin.server.getVersion().replace(".", "_");
 
 		if (!version.contains("1_14_2")) {
-			console("&cInvalid Server version&8:&7 " + version + " You must be using either &eSpigot v1.13.2 &7or &ev1.14.2");
+			console("&cInvalid Server version&8:&7 " + version + " You must be using &eSpigot v1.14.2");
 
 			return "null";
 		}
