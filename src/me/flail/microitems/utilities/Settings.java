@@ -13,13 +13,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import me.flail.MicroItems;
 import me.flail.tools.DataFile;
 
-public class Config {
+public class Settings {
 	private MicroItems plugin;
 	private DataFile file;
 
 	private FileConfiguration config = new YamlConfiguration();
 
-	public Config(MicroItems plugin) {
+	public Settings(MicroItems plugin) {
 		this.plugin = plugin;
 		file = new DataFile("Settings.yml");
 		this.reload();
@@ -54,7 +54,7 @@ public class Config {
 		return config.getStringList(path);
 	}
 
-	public Config reload() {
+	public Settings reload() {
 		try {
 			file.load();
 		} catch (Exception e) {

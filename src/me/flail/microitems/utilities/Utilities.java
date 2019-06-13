@@ -27,7 +27,7 @@ public class Utilities extends ItemUtils {
 
 	protected boolean broadcastChatItem(Player sender, String placeholder, String format, Set<Player> recipients, String message) {
 		MicroItems plugin = MicroItems.getPlugin(MicroItems.class);
-		Config config = plugin.config;
+		Settings config = plugin.config;
 
 		ItemStack item = sender.getInventory().getItemInMainHand();
 		if ((item == null) || (item.getType() == Material.AIR)) {

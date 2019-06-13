@@ -20,7 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.flail.microitems.gui.GuiEvents;
 import me.flail.microitems.listeners.ChatListener;
 import me.flail.microitems.listeners.UseListener;
-import me.flail.microitems.utilities.Config;
+import me.flail.microitems.utilities.Settings;
 import me.flail.microitems.utilities.TabCompleter;
 import me.flail.microitems.utilities.Utilities;
 import me.flail.tools.Logger;
@@ -29,7 +29,7 @@ public class MicroItems extends JavaPlugin implements Listener {
 	public Utilities utilities = Utilities.get();
 	public ConsoleCommandSender console = getServer().getConsoleSender();
 	public String version = this.getDescription().getVersion();
-	public Config config;
+	public Settings config;
 
 	public Server server = getServer();
 	public PluginManager plugin = server.getPluginManager();
@@ -50,7 +50,7 @@ public class MicroItems extends JavaPlugin implements Listener {
 		long loadTime = System.currentTimeMillis();
 		console.sendMessage(utilities.chat(" &eInitializing startup of MicroItems v" + version));
 
-		config = new Config(this).reload();
+		config = new Settings(this).reload();
 		console.sendMessage(utilities.chat(" &7Loaded Settings.yml file."));
 		chatFormat = config.getValue("Chat.DefaultFormat").toString();
 
@@ -67,8 +67,8 @@ public class MicroItems extends JavaPlugin implements Listener {
 		console.sendMessage(utilities.chat(" &aShutdown success.  &eGoodbye!"));
 	}
 
-	public Config config() {
-		config = new Config(this).reload();
+	public Settings config() {
+		config = new Settings(this).reload();
 		return config;
 	}
 

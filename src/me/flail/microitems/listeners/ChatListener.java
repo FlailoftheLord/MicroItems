@@ -10,12 +10,12 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.flail.MicroItems;
-import me.flail.microitems.utilities.Config;
+import me.flail.microitems.utilities.Settings;
 import me.flail.microitems.utilities.Utilities;
 
 public class ChatListener extends Utilities implements Listener {
 	private MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
-	private Config config = new Config(plugin);
+	private Settings config = new Settings(plugin);
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void playerChat(AsyncPlayerChatEvent event) {

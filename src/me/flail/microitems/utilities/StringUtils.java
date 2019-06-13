@@ -16,7 +16,7 @@ public class StringUtils {
 	}
 
 	public String chat(String message) {
-		String prefix = new Config(MicroItems.getPlugin(MicroItems.class)).getValue("Chat.Prefix").toString();
+		String prefix = new Settings(MicroItems.getPlugin(MicroItems.class)).getValue("Chat.Prefix").toString();
 		return ChatColor.translateAlternateColorCodes('&', message.replace("[prefix]", prefix));
 	}
 

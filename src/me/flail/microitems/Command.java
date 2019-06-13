@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import me.flail.MicroItems;
 import me.flail.microitems.mitems.gui.MainGui;
-import me.flail.microitems.utilities.Config;
+import me.flail.microitems.utilities.Settings;
 import me.flail.microitems.utilities.Utilities;
 
 /**
@@ -73,7 +73,7 @@ public class Command extends Utilities {
 					break;
 				case "reload":
 					if (sender.hasPermission("microitems.admin")) {
-						plugin.config = new Config(plugin);
+						plugin.config = new Settings(plugin);
 						plugin.registry();
 						sender.sendMessage(chat(plugin.config.getValue("Chat.ReloadMessage").toString()));
 						break;
