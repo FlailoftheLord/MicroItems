@@ -30,6 +30,9 @@ public class Settings {
 		file.setValue(path, value);
 	}
 
+	public DataFile file() {
+		return file;
+	}
 
 	/**
 	 * Gets a value from the config.
@@ -91,6 +94,7 @@ public class Settings {
 		values.put("Chat.ItemPlaceholders", itemPlaceholders);
 		values.put("Item.Prefix", itemPrefix);
 		values.put("Item.Suffix", itemSuffix);
+		values.put("Item.DefaultStackSize", Integer.valueOf(1));
 
 		/**
 		 * A SUPER DUPER FANCY SEPARATOR!! ooh yeaaaaa ;p

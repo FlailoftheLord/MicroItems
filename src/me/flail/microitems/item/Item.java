@@ -29,6 +29,16 @@ public class Item {
 		return item;
 	}
 
+	public ItemMeta meta() {
+		return item.getItemMeta();
+	}
+
+	public ItemStack setMeta(ItemMeta meta) {
+		item.setItemMeta(meta);
+
+		return item;
+	}
+
 	public ItemType getType() {
 		return itemType;
 	}
@@ -38,34 +48,42 @@ public class Item {
 	}
 
 	public String getName() {
-		return item().getItemMeta().hasDisplayName() ? item().getItemMeta().getDisplayName() : getType().name();
+		return meta().hasDisplayName() ? meta().getDisplayName() : getType().name();
 	}
 
-	public void setName(String name) {
-		item().getItemMeta().setDisplayName(name);
+	public Item setName(String name) {
+		ItemMeta meta = meta();
+		meta.setDisplayName(name);
+
+		item = setMeta(meta);
+		return this;
 	}
 
 	public List<String> getLore() {
-		return item().getItemMeta().hasLore() ? item().getItemMeta().getLore() : new ArrayList<>();
+		return meta().hasLore() ? meta().getLore() : new ArrayList<>();
 	}
 
-	public void setLore(List<String> lore) {
-		item().getItemMeta().setLore(lore);
+	public Item setLore(List<String> lore) {
+		ItemMeta meta = meta();
+		meta.setLore(lore);
+
+		item = setMeta(meta);
+		return this;
 	}
 
 	public Item addNBT(String data) {
-		item().getItemMeta().getPersistentDataContainer().set(new NamespacedKey(plugin, data),
+		ItemMeta meta = meta();
+
+		meta.getPersistentDataContainer().set(new NamespacedKey(plugin, data),
 				PersistentDataType.STRING, data);
+
+		item = setMeta(meta);
 		return this;
 	}
 
 	public boolean hasNBT(String data) {
-		return item().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, data),
+		return meta().getPersistentDataContainer().has(new NamespacedKey(plugin, data),
 				PersistentDataType.STRING);
-	}
-
-	public ItemMeta getMeta() {
-		return item().getItemMeta();
 	}
 
 }

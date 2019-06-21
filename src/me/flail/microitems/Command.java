@@ -7,8 +7,10 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import me.flail.MicroItems;
+import me.flail.microitems.item.ItemType;
 import me.flail.microitems.mitems.gui.MainGui;
 import me.flail.microitems.utilities.Settings;
 import me.flail.microitems.utilities.Utilities;
@@ -40,7 +42,7 @@ public class Command extends Utilities {
 					+ plugin.getServer().getVersion() + "&8)");
 			String usage = chat(
 					"&cUsage: &7/" + command
-					+ " <help:showitem:inventory:reload:item> [placeholders] <list:add:delete> <placeholder-name>");
+					+ " <help:showitem:inventory:reload:item> [get:placeholders] <item-type:list:add:delete> <amount:placeholder-name>");
 			String itemUsage = chat(
 					"[prefix] Modify chat-item placeholders. \n&cUsage: &7/microitems item placeholders <list:add:delete>");
 
@@ -62,6 +64,10 @@ public class Command extends Utilities {
 				case "displayitem":
 					showItem(sender);
 					break;
+				case "generateitems":
+					Utilities.generateItemFile();
+					sender.sendMessage(chat("[prefix] &cItemMap File has been generated&8: &7/MicroTools/items.yml"));
+					break;
 				case "item":
 					sender.sendMessage(usage);
 					break;
@@ -73,9 +79,9 @@ public class Command extends Utilities {
 					break;
 				case "reload":
 					if (sender.hasPermission("microitems.admin")) {
-						plugin.config = new Settings(plugin);
+						plugin.settings = new Settings(plugin);
 						plugin.registry();
-						sender.sendMessage(chat(plugin.config.getValue("Chat.ReloadMessage").toString()));
+						sender.sendMessage(chat(plugin.settings.getValue("Chat.ReloadMessage").toString()));
 						break;
 					}
 
@@ -84,13 +90,19 @@ public class Command extends Utilities {
 
 				break;
 			case 2:
-				try {
-					arg = args[1].toLowerCase();
-				} catch (Exception e) {
-				}
 				if (args[0].equalsIgnoreCase("item")) {
+					if (args[1].equalsIgnoreCase("get")) {
+						if (!(sender instanceof Player)) {
+							console("[prefix] &cOnly In-Game players may use this command!");
+							break;
+						}
+
+						sender.sendMessage("[prefix] &cUsage&8: &7/mitems item get <type> [amount]");
+						break;
+					}
 
 					sender.sendMessage(itemUsage);
+					break;
 				}
 
 				sender.sendMessage(usage);
@@ -100,6 +112,7 @@ public class Command extends Utilities {
 					arg = args[2].toLowerCase();
 				} catch (Throwable t) {
 				}
+
 				if (args[0].equalsIgnoreCase("item")) {
 					switch (arg) {
 					case "add":
@@ -110,6 +123,15 @@ public class Command extends Utilities {
 					case "list":
 						this.listPlaceholders(sender);
 						break;
+					default:
+						if (args[1].equalsIgnoreCase("get")) {
+							String type = arg.toUpperCase();
+							int amount = plugin.settings.file().getNumber("Item.DefaultStackSize");
+
+							giveItem(sender, type, amount);
+							break;
+						}
+
 					}
 
 				}
@@ -117,8 +139,11 @@ public class Command extends Utilities {
 			}
 
 			if (args.length > 3) {
+
 				if (args[0].equalsIgnoreCase("item")) {
+
 					if (sender.hasPermission("microitems.admin")) {
+
 						String value = "";
 						for (int index = 3; index < args.length; index++) {
 							value = value.concat(args[index]);
@@ -140,7 +165,15 @@ public class Command extends Utilities {
 							sender.sendMessage(chat("[prefix] &cthere isn't a placeholder by the name&8: &7" + value));
 						}
 
-						plugin.config.setValue("Chat.ItemPlaceholders", placeholders);
+						plugin.settings.setValue("Chat.ItemPlaceholders", placeholders);
+						return true;
+					}
+
+					if (args[1].equalsIgnoreCase("get")) {
+						String type = args[2];
+						int amount = Integer.parseInt(args[3].replaceAll("[^0-9]", ""));
+
+						giveItem(sender, type, amount);
 						return true;
 					}
 
@@ -151,13 +184,42 @@ public class Command extends Utilities {
 				sender.sendMessage(itemUsage);
 			}
 
+			return true;
 		}
 
-		return plugin != null ? true : false;
+		if (command.equalsIgnoreCase("item")) {
+
+
+			switch (args.length) {
+			case 0:
+
+				sender.sendMessage("[prefix] &cUsage&8: &7/item <type> [amount]");
+				break;
+			case 1:
+				String type = args[0];
+				int amount = plugin.settings.file().getNumber("Item.DefaultStackSize");
+
+				giveItem(sender, type, amount);
+				break;
+			default:
+				type = args[0];
+				amount = Integer.parseInt(args[1].replaceAll("[^0-9]", ""));
+
+				this.giveItem(sender, type, amount);
+				break;
+			}
+
+
+
+
+			return true;
+		}
+
+		return plugin != null;
 	}
 
 	private List<String> getPlaceholders() {
-		return plugin.config.getList("Chat.ItemPlaceholders");
+		return plugin.settings.getList("Chat.ItemPlaceholders");
 	}
 
 	private void listPlaceholders(CommandSender sender) {
@@ -177,6 +239,7 @@ public class Command extends Utilities {
 			if (sender instanceof Player) {
 				Set<Player> players = new HashSet<>();
 				players.addAll(Bukkit.getOnlinePlayers());
+
 				this.broadcastChatItem((Player) sender, "[item]", plugin.chatFormat, players, "[item]");
 				return;
 			}
@@ -195,6 +258,32 @@ public class Command extends Utilities {
 			return;
 		}
 		sender.sendMessage(denied);
+	}
+
+	private void giveItem(CommandSender operator, String type, int amount) {
+		if (operator instanceof Player) {
+			Player player = (Player) operator;
+
+
+			if (amount < 1) {
+				amount = plugin.settings.file().getNumber("Item.DefaultStackSize");
+			}
+
+			ItemStack item = Utilities.itemFromName(type);
+			item.setAmount(amount);
+
+			String name = new ItemType(item.getType()).name();
+			if (!name.endsWith("s") && (amount > 1)) {
+				name = name.concat("s");
+			}
+
+			player.getInventory().addItem(item);
+			player.sendMessage(chat("[prefix] &aYou got &7" + amount + " &e" + name));
+			return;
+		}
+
+		console("[prefix] &cOnly In-Game players may use this command!");
+		return;
 	}
 
 }

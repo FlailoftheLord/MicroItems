@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.flail.MicroItems;
 import me.flail.microitems.item.Item;
@@ -76,6 +77,10 @@ public class GUI extends Utilities {
 	}
 
 	protected void fillEmptySpace(ItemStack item) {
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(" ");
+		item.setItemMeta(meta);
+
 		for (int i = ui.firstEmpty(); i < ui.getSize(); i++) {
 			if ((ui.getItem(i) == null) || (ui.getItem(i).getType() == Material.AIR)) {
 				ui.setItem(i, item);

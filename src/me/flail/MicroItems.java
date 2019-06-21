@@ -26,10 +26,9 @@ import me.flail.microitems.utilities.Utilities;
 import me.flail.tools.Logger;
 
 public class MicroItems extends JavaPlugin implements Listener {
-	public Utilities utilities = Utilities.get();
 	public ConsoleCommandSender console = getServer().getConsoleSender();
 	public String version = this.getDescription().getVersion();
-	public Settings config;
+	public Settings settings;
 
 	public Server server = getServer();
 	public PluginManager plugin = server.getPluginManager();
@@ -47,13 +46,16 @@ public class MicroItems extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
+		Utilities utilities = new Utilities();
+
 		long loadTime = System.currentTimeMillis();
 		console.sendMessage(utilities.chat(" &eInitializing startup of MicroItems v" + version));
 
-		config = new Settings(this).reload();
+		settings = settings();
 		console.sendMessage(utilities.chat(" &7Loaded Settings.yml file."));
-		chatFormat = config.getValue("Chat.DefaultFormat").toString();
+		chatFormat = settings.getValue("Chat.DefaultFormat").toString();
 
+		Utilities.generateItemFile();
 
 		registerCommands();
 		registerEvents();
@@ -63,13 +65,15 @@ public class MicroItems extends JavaPlugin implements Listener {
 
 	@Override
 	public void onDisable() {
+		Utilities utilities = new Utilities();
+
 		getServer().getScheduler().cancelTasks(this);
 		console.sendMessage(utilities.chat(" &aShutdown success.  &eGoodbye!"));
 	}
 
-	public Settings config() {
-		config = new Settings(this).reload();
-		return config;
+	public Settings settings() {
+		settings = new Settings(this).reload();
+		return settings;
 	}
 
 	public void registry() {
@@ -80,6 +84,8 @@ public class MicroItems extends JavaPlugin implements Listener {
 
 
 	private void registerCommands() {
+		Utilities utilities = new Utilities();
+
 		for (String cmd : this.getDescription().getCommands().keySet()) {
 			try {
 				PluginCommand command = getCommand(cmd);

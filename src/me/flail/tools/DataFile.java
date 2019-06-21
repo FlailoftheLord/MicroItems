@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
  * @author FlailoftheLord
  */
 public class DataFile extends Logger {
+
 	private File file;
 	private FileConfiguration config = new YamlConfiguration();
 

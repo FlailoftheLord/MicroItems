@@ -11,8 +11,12 @@ commands:
   
   microitems:
     description: main command
-    usage: /microitems <help:reload:inv:inventory:displayitem:showitem:item> [item%placeholders] [placeholders%list:placeholders%add:placeholders%delete] [add%new-placeholder:delete%placeholder-name]
+    usage: /microitems <help:reload:inv:inventory:displayitem:showitem:item:get> [get%item-types:item%placeholders:item%get] [get%item-types:placeholders%list:placeholders%add:placeholders%delete] [add%new-placeholder:delete%placeholder-name]
     aliases: [mitems]
+  item:
+    description: get an item
+    usage: /item <item-types> [amount]
+    aliases: [i, getitem]
     
 permissions:
   

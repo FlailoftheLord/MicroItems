@@ -4,16 +4,18 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import me.flail.MicroItems;
-import me.flail.microitems.utilities.Settings;
 
 public class Tools {
-	protected MicroItems plugin = MicroItems.getPlugin(MicroItems.class);
+	protected MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
 
 	public String chat(String message) {
+		message = message.toString();
+
 		return ChatColor.translateAlternateColorCodes('&',
-				message.replace("[prefix]", new Settings(plugin).getValue("Prefix").toString()));
+				message.replace("[prefix]", plugin.settings.file().getValue("Chat.Prefix")));
 	}
 
 	/**
