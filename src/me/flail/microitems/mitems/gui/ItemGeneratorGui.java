@@ -29,12 +29,12 @@ public class ItemGeneratorGui extends GUI {
 
 	@Override
 	public void createContents() {
-		Item mainItem = new Item(new ItemStack(Material.BARRIER)).addNBT("item");
-		Item name = new Item(new ItemStack(Material.ANVIL)).addNBT("item-name");
-		Item type = new Item(new ItemStack(Material.LIME_DYE)).addNBT("item-type");
-		Item enchants = new Item(new ItemStack(Material.ENCHANTING_TABLE)).addNBT("item-enchant");
-		Item attributes = new Item(new ItemStack(Material.COMPOSTER)).addNBT("item-attribute");
-		Item actions = new Item(new ItemStack(Material.STONE_AXE)).addNBT("item-action");
+		Item mainItem = new Item(new ItemStack(Material.BARRIER)).addTag("item", " ");
+		Item name = new Item(new ItemStack(Material.ANVIL)).addTag("item-name", " ");
+		Item type = new Item(new ItemStack(Material.LIME_DYE)).addTag("item-type", " ");
+		Item enchants = new Item(new ItemStack(Material.ENCHANTING_TABLE)).addTag("item-enchant", " ");
+		Item attributes = new Item(new ItemStack(Material.COMPOSTER)).addTag("item-attribute", " ");
+		Item actions = new Item(new ItemStack(Material.STONE_AXE)).addTag("item-action", " ");
 
 		List<String> lore = new ArrayList<>();
 

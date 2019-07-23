@@ -26,8 +26,8 @@ public class MainGui extends GUI {
 
 	@Override
 	protected void createContents() {
-		Item backups = new Item(new ItemStack(Material.ENDER_CHEST)).addNBT("inv-backups");
-		Item itemGen = new Item(new ItemStack(Material.ANVIL)).addNBT("item-generator");
+		Item backups = new Item(new ItemStack(Material.ENDER_CHEST)).addTag("inv-backups", " ");
+		Item itemGen = new Item(new ItemStack(Material.ANVIL)).addTag("item-generator", " ");
 
 		backups.setName(chat("&eInventory Backups"));
 		itemGen.setName(chat("&aCustom Item Generator"));

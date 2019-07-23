@@ -3,19 +3,18 @@ package me.flail.microitems.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.flail.MicroItems;
+import me.flail.tools.Logger;
 
 
 /**
  * Allows for Wider control of an {@link ItemStack}'s data.
  */
-public class Item {
+public class Item extends Logger {
 	private MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
 	private ItemStack item;
 	private ItemType itemType;
@@ -71,19 +70,24 @@ public class Item {
 		return this;
 	}
 
-	public Item addNBT(String data) {
-		ItemMeta meta = meta();
+	public Item addTag(String tag, String data) {
+		item = addTag(item, tag, data);
 
-		meta.getPersistentDataContainer().set(new NamespacedKey(plugin, data),
-				PersistentDataType.STRING, data);
-
-		item = setMeta(meta);
 		return this;
 	}
 
-	public boolean hasNBT(String data) {
-		return meta().getPersistentDataContainer().has(new NamespacedKey(plugin, data),
-				PersistentDataType.STRING);
+	public Item removeTag(String tag) {
+		item = removeTag(item, tag);
+
+		return this;
+	}
+
+	public boolean hasTag(String tag) {
+		return hasTag(item, tag);
+	}
+
+	public String getTag(String tag) {
+		return getTag(item, tag);
 	}
 
 }

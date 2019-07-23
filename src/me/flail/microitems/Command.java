@@ -14,6 +14,7 @@ import me.flail.microitems.item.ItemType;
 import me.flail.microitems.mitems.gui.MainGui;
 import me.flail.microitems.utilities.Settings;
 import me.flail.microitems.utilities.Utilities;
+import me.flail.tools.Logger;
 
 /**
  * TODO Gotta work on this...
@@ -21,7 +22,7 @@ import me.flail.microitems.utilities.Utilities;
  * 
  * @author FlailoftheLord
  */
-public class Command extends Utilities {
+public class Command extends Logger {
 	private MicroItems plugin = MicroItems.getPlugin(MicroItems.class);
 	private CommandSender sender;
 	private String command;

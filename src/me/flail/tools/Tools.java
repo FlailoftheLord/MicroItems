@@ -4,13 +4,13 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import me.flail.MicroItems;
+import me.flail.microitems.utilities.Utilities;
 
-public class Tools {
-	protected MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
+public class Tools extends Utilities {
 
+
+	@Override
 	public String chat(String message) {
 		message = message.toString();
 

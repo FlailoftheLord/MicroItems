@@ -55,14 +55,14 @@ public class GuiEvents extends Logger implements Listener {
 				event.setCancelled(true);
 				Item item = new Item(event.getCurrentItem());
 
-				if (item.hasNBT("inv-backups")) {
+				if (item.hasTag("inv-backups")) {
 					close(clicker);
 					clicker.sendMessage(chat(""));
 
 					return;
 				}
 
-				if (item.hasNBT("item-generator")) {
+				if (item.hasTag("item-generator")) {
 
 				}
 
