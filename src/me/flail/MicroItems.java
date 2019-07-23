@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.flail.microitems.gui.GuiEvents;
 import me.flail.microitems.listeners.ChatListener;
+import me.flail.microitems.listeners.SpawnedItemListener;
 import me.flail.microitems.listeners.UseListener;
 import me.flail.microitems.utilities.Settings;
 import me.flail.microitems.utilities.TabCompleter;
@@ -57,8 +58,7 @@ public class MicroItems extends JavaPlugin implements Listener {
 
 		Utilities.generateItemFile();
 
-		registerCommands();
-		registerEvents();
+		registry();
 
 		console.sendMessage(utilities.chat(" &aStartup complete. &8(&7" + (System.currentTimeMillis() - loadTime) + "ms&8)\n"));
 	}
@@ -78,7 +78,7 @@ public class MicroItems extends JavaPlugin implements Listener {
 
 	public void registry() {
 		registerCommands();
-		registerEvents();
+		registerEventListeners();
 	}
 
 
@@ -104,12 +104,13 @@ public class MicroItems extends JavaPlugin implements Listener {
 		}
 	}
 
-	private void registerEvents() {
+	private void registerEventListeners() {
 		plugin.registerEvents(new ChatListener(), this);
 		console.sendMessage(" Chat Listener is active.");
 		plugin.registerEvents(new UseListener(), this);
 		plugin.registerEvents(this, this);
 		plugin.registerEvents(new GuiEvents(), this);
+		plugin.registerEvents(new SpawnedItemListener(), this);
 	}
 
 	@Override

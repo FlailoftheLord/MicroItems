@@ -84,6 +84,7 @@ public class Settings {
 		List<String> itemPlaceholders = new ArrayList<>();
 		itemPlaceholders.add("[item]");
 		itemPlaceholders.add("[hand]");
+
 		String itemPrefix = "&e[&b";
 		String itemSuffix = "&e]&r";
 		String defaultFormat = "%1$s &8»&7 %2$s";
@@ -95,6 +96,8 @@ public class Settings {
 		values.put("Item.Prefix", itemPrefix);
 		values.put("Item.Suffix", itemSuffix);
 		values.put("Item.DefaultStackSize", Integer.valueOf(1));
+		values.put("Item.OtherPlayerPickupDelay", Integer.valueOf(6));
+		values.put("Item.ShowDroppedItemName", "true");
 
 		/**
 		 * A SUPER DUPER FANCY SEPARATOR!! ooh yeaaaaa ;p
