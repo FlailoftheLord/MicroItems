@@ -14,6 +14,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class ItemUtils extends StringUtils {
 
+	/**
+	 * Returns a player-friendly looking name for this material.
+	 */
 	protected String name(Material material) {
 		return new ItemType(material).name();
 	}

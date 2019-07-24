@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -78,7 +79,8 @@ public class SpawnedItemListener extends Logger implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void itemPickup(EntityPickupItemEvent event) {
-		if (event.getEntity() instanceof Player) {
+		if ((event.getEntity() instanceof Player) && !event.isCancelled()) {
+
 			Player player = (Player) event.getEntity();
 
 			Item item = new Item(event.getItem().getItemStack());
@@ -98,6 +100,19 @@ public class SpawnedItemListener extends Logger implements Listener {
 			}
 
 			item.removeTag("dropped-item");
+		}
+
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void itemDrop(EntityDropItemEvent event) {
+		if ((event.getEntity() instanceof Player) && !event.isCancelled()) {
+			boolean showDroppedItemName = plugin.settings.file().getBoolean("Item.ShowDroppedItemName");
+			String format = plugin.settings.file().getValue("Item.DroppedItemNameFormat").replaceAll("\\[item\\]",
+					this.name(event.getItemDrop().getItemStack().getType()));
+
+			event.getItemDrop().setCustomName(format);
+			event.getItemDrop().setCustomNameVisible(showDroppedItemName);
 		}
 
 	}
