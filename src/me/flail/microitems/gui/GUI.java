@@ -13,14 +13,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.flail.MicroItems;
 import me.flail.microitems.item.Item;
-import me.flail.microitems.utilities.Utilities;
+import me.flail.tools.Logger;
 
 /**
  * All extends of this must override {@link #generate()} and {@link #createContents()}
  * 
  * @author FlailoftheLord
  */
-public class GUI extends Utilities {
+public class GUI extends Logger {
 	protected Map<Integer, Item> contents = new HashMap<>();
 
 	private UUID uuid;
