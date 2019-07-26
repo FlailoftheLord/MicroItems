@@ -94,7 +94,6 @@ public class SpawnedItemListener extends Logger implements Listener {
 				tag = event.getItem().getMetadata("MicroItems-dropped-item").get(0).asString();
 			}
 
-
 			if ((tag != null) && !UUID.fromString(tag).equals(player.getUniqueId())) {
 				event.setCancelled(true);
 				return;
@@ -107,16 +106,21 @@ public class SpawnedItemListener extends Logger implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void itemDrop(EntityDropItemEvent event) {
-		if ((event.getEntity() instanceof Player) && !event.isCancelled()) {
-			boolean showDroppedItemName = plugin.settings.file().getBoolean("Item.ShowDroppedItemName");
-			String format = plugin.settings.file().getValue("Item.DroppedItemNameFormat").replaceAll("\\[item\\]",
-					this.name(event.getItemDrop().getItemStack().getType()));
+		// if ((event.getEntity() instanceof Player) && !event.isCancelled()) {
+		boolean showDroppedItemName = plugin.settings.file().getBoolean("Item.ShowDroppedItemName");
+		String format = plugin.settings.file().getValue("Item.DroppedItemNameFormat").replaceAll("\\[item\\]",
+				this.name(event.getItemDrop().getItemStack().getType()));
 
-			org.bukkit.entity.Item item = event.getItemDrop();
+		org.bukkit.entity.Item item = event.getItemDrop();
 
+
+		plugin.server.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
 			item.setCustomName(chat(format));
 			item.setCustomNameVisible(showDroppedItemName);
-		}
+
+		}, 2L);
+
+		// }
 
 	}
 

@@ -258,12 +258,19 @@ public class Command extends Logger {
 			new MainGui(chat("&2MicroItems ControlPanel")).open(operator);
 			return;
 		}
+
 		sender.sendMessage(denied);
 	}
 
 	private void giveItem(CommandSender operator, String type, int amount) {
 		if (operator instanceof Player) {
 			Player player = (Player) operator;
+
+			if (!player.hasPermission("microitems.item.self")) {
+				player.sendMessage(chat("[prefix] &cYou don't have permission to use that!"));
+
+				return;
+			}
 
 
 			if (amount < 1) {

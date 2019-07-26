@@ -33,3 +33,10 @@ permissions:
   microitems.chat:
     description: show off your item in chat!
     default: true
+    
+  microitems.item:
+    description: give items to yourself or another player
+    default: op
+    children:
+      microitems.item.self: true
+      microitems.item.other: true
