@@ -107,7 +107,7 @@ public class DataFile extends Logger {
 	 * @return false if value wasn't found.
 	 */
 	public boolean getBoolean(String key) {
-		return hasValue(key) ? Boolean.valueOf(getObj(key).toString().replaceAll("[^truefalse]", "")).booleanValue() : false;
+		return hasValue(key) ? config.getBoolean(key) : false;
 	}
 
 	public List<String> getList(String key) {
@@ -115,7 +115,7 @@ public class DataFile extends Logger {
 	}
 
 	public String[] getArray(String key) {
-		return getValue(key).replace("[", "").replace("]", "").split(", ");
+		return getValue(key).replaceAll("\\[\\]", "").split(", ");
 	}
 
 	public DataFile setHeader(String string) {

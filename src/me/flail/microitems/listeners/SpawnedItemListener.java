@@ -39,16 +39,17 @@ public class SpawnedItemListener extends Logger implements Listener {
 		if (event.getDamager() instanceof Player) {
 			Entity damaged = event.getEntity();
 
-			if (!damaged.hasMetadata("Microitems-attacker")) {
-
+			if (!damaged.hasMetadata("MicroItems-attacker")) {
 				damaged.setMetadata("MicroItems-attacker", new FixedMetadataValue(plugin, ((Player) event.getDamager()).getUniqueId()));
+
 				plugin.server.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
 					if (damaged.isValid()) {
 
 						damaged.removeMetadata("MicroItems-attacker", plugin);
 					}
 
-				}, 365L);
+				}, 120L);
+
 			}
 
 		}
@@ -111,8 +112,10 @@ public class SpawnedItemListener extends Logger implements Listener {
 			String format = plugin.settings.file().getValue("Item.DroppedItemNameFormat").replaceAll("\\[item\\]",
 					this.name(event.getItemDrop().getItemStack().getType()));
 
-			event.getItemDrop().setCustomName(format);
-			event.getItemDrop().setCustomNameVisible(showDroppedItemName);
+			org.bukkit.entity.Item item = event.getItemDrop();
+
+			item.setCustomName(chat(format));
+			item.setCustomNameVisible(showDroppedItemName);
 		}
 
 	}
