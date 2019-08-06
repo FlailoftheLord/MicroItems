@@ -3,20 +3,12 @@ package me.flail.tools;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.bukkit.ChatColor;
-
 import me.flail.microitems.utilities.Utilities;
 
 public class Tools extends Utilities {
 
 
-	@Override
-	public String chat(String message) {
-		message = message.toString();
 
-		return ChatColor.translateAlternateColorCodes('&',
-				message.replace("[prefix]", plugin.settings.file().getValue("Chat.Prefix")));
-	}
 
 	/**
 	 * Converts a string, by translating the following placeholders with their counterparts defined in

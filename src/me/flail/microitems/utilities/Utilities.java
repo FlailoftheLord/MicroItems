@@ -125,7 +125,7 @@ public class Utilities extends ItemUtils {
 	public static ItemStack itemFromName(String name) {
 		Material type = Material.AIR;
 		for (String item : itemList()) {
-			if (item.contains(name.toLowerCase())) {
+			if (item.startsWith(name.toLowerCase())) {
 				type = Material.matchMaterial(item.split(":")[0].toUpperCase());
 				break;
 			}
