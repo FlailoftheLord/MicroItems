@@ -42,6 +42,8 @@ public class MicroItems extends JavaPlugin implements Listener {
 
 	@Override
 	public void onLoad() {
+		settings();
+
 		versionCheck();
 	}
 
@@ -52,7 +54,6 @@ public class MicroItems extends JavaPlugin implements Listener {
 		long loadTime = System.currentTimeMillis();
 		console.sendMessage(utilities.chat(" &eInitializing startup of MicroItems v" + version));
 
-		settings = settings();
 		console.sendMessage(utilities.chat(" &7Loaded Settings.yml file."));
 		chatFormat = settings.getValue("Chat.DefaultFormat").toString();
 
@@ -124,10 +125,8 @@ public class MicroItems extends JavaPlugin implements Listener {
 	}
 
 	private void versionCheck() {
-		if (!server.getVersion().contains("1.14.2")) {
-			new Logger().console("&cYOU MUST BE USING &7Spigot version 1.14.2 &cin order for MicroItems to run!");
-
-			this.setEnabled(false);
+		if (!server.getVersion().contains("1.14.")) {
+			new Logger().console("&cYOU MUST BE USING &7Spigot version 1.14.1+ &cin order for MicroItems to run properly!");
 		}
 
 	}
