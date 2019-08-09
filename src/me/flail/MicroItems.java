@@ -17,7 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.flail.microitems.gui.GuiEvents;
 import me.flail.microitems.listeners.ChatListener;
 import me.flail.microitems.listeners.SpawnedItemListener;
 import me.flail.microitems.listeners.UseListener;
@@ -110,7 +109,7 @@ public class MicroItems extends JavaPlugin implements Listener {
 		console.sendMessage(" Chat Listener is active.");
 		plugin.registerEvents(new UseListener(), this);
 		plugin.registerEvents(this, this);
-		plugin.registerEvents(new GuiEvents(), this);
+		// plugin.registerEvents(new GuiEvents(), this);
 		plugin.registerEvents(new SpawnedItemListener(), this);
 	}
 

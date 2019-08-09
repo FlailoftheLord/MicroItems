@@ -97,8 +97,8 @@ public class Settings {
 		values.put("Item.Suffix", itemSuffix);
 		values.put("Item.DefaultStackSize", Integer.valueOf(1));
 		values.put("Item.OtherPlayerPickupDelay", Integer.valueOf(6));
-		// values.put("Item.ShowDroppedItemName", true);
-		// values.put("Item.DroppedItemNameFormat", "&7[item]");
+		values.put("Item.ShowDroppedItemName", Boolean.valueOf(true));
+		values.put("Item.DroppedItemNameFormat", "&7[item]");
 
 		/**
 		 * A SUPER DUPER FANCY SEPARATOR!! ooh yeaaaaa ;p
