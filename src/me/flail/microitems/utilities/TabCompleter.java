@@ -72,7 +72,7 @@ public class TabCompleter extends ArrayList<String> {
 		}
 
 		for (String arg : this.toArray(new String[] {})) {
-			if (!arg.startsWith(args[args.length - 1])) {
+			if (!arg.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
 				this.remove(arg);
 			}
 		}

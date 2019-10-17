@@ -189,6 +189,11 @@ public class Command extends Logger {
 		}
 
 		if (command.equalsIgnoreCase("item")) {
+			if (!sender.hasPermission("microitems.admin")) {
+				sender.sendMessage(denied);
+
+				return true;
+			}
 
 
 			switch (args.length) {
@@ -277,7 +282,7 @@ public class Command extends Logger {
 				amount = plugin.settings.file().getNumber("Item.DefaultStackSize");
 			}
 
-			ItemStack item = Utilities.itemFromName(type);
+			ItemStack item = Utilities.itemFromName(type.toLowerCase());
 			item.setAmount(amount);
 
 			String name = new ItemType(item.getType()).name();

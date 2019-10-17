@@ -127,7 +127,12 @@ public class Utilities extends ItemUtils {
 		for (String item : itemList()) {
 			if (item.startsWith(name.toLowerCase())) {
 				type = Material.matchMaterial(item.split(":")[0].toUpperCase());
-				break;
+			}
+
+			if (type == Material.AIR) {
+				if (item.contains(":" + name + ":")) {
+					type = Material.matchMaterial(item.split(":")[0].toUpperCase());
+				}
 			}
 
 		}
