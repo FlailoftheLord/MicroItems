@@ -4,7 +4,7 @@ prefix: Mitems
 # non-editable shits...
 main: me.flail.MicroItems
 softdepend: [MicroCommands, ChatManager, ChatControl, ChatControlPro]
-version: 1.0.5
+version: 1.0.7
 api-version: 1.14
 
 commands:
