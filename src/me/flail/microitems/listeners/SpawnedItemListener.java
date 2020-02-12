@@ -20,7 +20,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import me.flail.microitems.item.Item;
 import me.flail.tools.Logger;
 
-@SuppressWarnings("deprecation")
 public class SpawnedItemListener extends Logger implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)

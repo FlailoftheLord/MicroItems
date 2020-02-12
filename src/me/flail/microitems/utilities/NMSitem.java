@@ -14,14 +14,14 @@ public class NMSitem extends Logger {
 	protected String versionTranslator(ItemStack item) {
 		String version = plugin.server.getVersion().replace(".", "_");
 
-		if (!version.contains("1_14_2")) {
-			console("&cInvalid Server version&8:&7 " + version + " You must be using &eSpigot v1.14.2");
+		if (!version.contains("1_15_2")) {
+			console("&cInvalid Server version&8:&7 " + version + " You must be using &eSpigot v1.15.2");
 
 			return "null";
 		}
 
-		net.minecraft.server.v1_14_R1.NBTTagCompound compound = new net.minecraft.server.v1_14_R1.NBTTagCompound();
-		net.minecraft.server.v1_14_R1.ItemStack nmsItem = org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack
+		net.minecraft.server.v1_15_R1.NBTTagCompound compound = new net.minecraft.server.v1_15_R1.NBTTagCompound();
+		net.minecraft.server.v1_15_R1.ItemStack nmsItem = org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack
 				.asNMSCopy(item);
 
 		compound = nmsItem.save(compound);

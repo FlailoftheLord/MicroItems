@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import me.flail.MicroItems;
 import me.flail.tools.Logger;
 
 
@@ -15,7 +13,6 @@ import me.flail.tools.Logger;
  * Allows for Wider control of an {@link ItemStack}'s data.
  */
 public class Item extends Logger {
-	private MicroItems plugin = JavaPlugin.getPlugin(MicroItems.class);
 	private ItemStack item;
 	private ItemType itemType;
 
